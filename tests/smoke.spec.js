@@ -17,7 +17,7 @@ for (const { path, title } of pages) {
 test('smoke — all nav links are present and clickable', async ({ page }) => {
   await page.goto('/');
   const links = page.locator('.navbar-links a');
-  await expect(links).toHaveCount(4);
+  await expect(links).toHaveCount(5);
 
   const hrefs = await links.evaluateAll(list => list.map(l => l.getAttribute('href')));
   for (const href of hrefs) {

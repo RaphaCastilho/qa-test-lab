@@ -7,6 +7,7 @@
 A **quality engineering dashboard** built as a static site and comprehensively tested with **Playwright**. This project serves as a showcase of Playwright testing capabilities — smoke tests, content validation, interactions, responsive design, visual regression, API mocking, and accessibility checks.
 
 → **Live demo**: [raphacastilho.github.io/qa-test-lab](https://raphacastilho.github.io/qa-test-lab)
+→ **Test Guide** (learn how each test works): [tests.html](https://raphacastilho.github.io/qa-test-lab/tests.html)
 
 ---
 
@@ -59,6 +60,7 @@ qa-test-lab/
 ├── scenarios.html          # Test scenarios catalog with filters
 ├── history.html            # Execution history table
 ├── endpoints.html          # API endpoint health monitor
+├── tests.html              # Interactive test guide & documentation
 ├── css/
 │   └── style.css           # Obsidian + silver theme
 ├── js/

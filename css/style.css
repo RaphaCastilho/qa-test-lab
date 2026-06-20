@@ -297,5 +297,11 @@ tbody tr:last-child td { border-bottom: none; }
 @media (max-width: 480px) {
   .metrics-grid { grid-template-columns: 1fr; }
   .navbar-brand span { display: none; }
+  .navbar-links a { padding: 4px 8px; font-size: .72rem; }
+  .navbar-inner { gap: 4px; }
   .filter-bar { flex-direction: column; }
+}
+
+@media (max-width: 400px) {
+  .navbar-inner { flex-wrap: wrap; height: auto; padding: 8px 0; justify-content: center; }
 }

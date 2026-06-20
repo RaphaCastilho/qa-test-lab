@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { href: 'scenarios.html', label: 'Scenarios', id: 'scenarios' },
     { href: 'history.html', label: 'History', id: 'history' },
     { href: 'endpoints.html', label: 'Endpoints', id: 'endpoints' },
+    { href: 'tests.html', label: 'Test Guide', id: 'tests' },
   ];
 
   const navHtml = `

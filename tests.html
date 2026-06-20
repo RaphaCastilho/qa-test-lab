@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QA Test Lab — Playwright test suite guide and documentation">
+  <title>QA Test Lab — Test Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root { --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
+    .guide-hero {
+      background: linear-gradient(135deg, var(--obsidian-light) 0%, var(--obsidian-surface) 100%);
+      border: 1px solid var(--obsidian-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .guide-hero h1 { font-size: 1.75rem; margin-bottom: 8px; }
+    .guide-hero p { color: var(--silver-muted); line-height: 1.7; }
+    .guide-hero strong { color: var(--accent-cyan); }
+    .guide-highlight {
+      background: rgba(34,211,238,.08);
+      border-left: 3px solid var(--accent-cyan);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top: 16px;
+      font-size: .875rem;
+      color: var(--silver);
+    }
+    .suite-card {
+      background: var(--obsidian-surface);
+      border: 1px solid var(--obsidian-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .suite-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 12px; gap: 16px;
+    }
+    .suite-header h2 {
+      font-size: 1.15rem; font-weight: 600; color: var(--silver-light);
+      margin: 0;
+    }
+    .suite-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .suite-badge {
+      font-size: .7rem; font-weight: 600; padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      background: var(--obsidian-border); color: var(--silver-muted);
+      white-space: nowrap;
+    }
+    .suite-badge.api { background: rgba(96,165,250,.12); color: var(--accent-blue); }
+    .suite-badge.assert { background: rgba(74,222,128,.12); color: var(--accent-green); }
+    .suite-badge.method { background: rgba(251,191,36,.12); color: var(--accent-yellow); }
+    .suite-desc { font-size: .875rem; color: var(--silver); line-height: 1.6; margin-bottom: 12px; }
+    .suite-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      font-size: .8rem; color: var(--silver-dim); margin-bottom: 12px;
+    }
+    .suite-meta span strong { color: var(--silver); font-weight: 500; }
+    details.code-block {
+      background: var(--obsidian-light);
+      border: 1px solid var(--obsidian-border);
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+    }
+    details.code-block summary {
+      padding: 10px 14px; cursor: pointer;
+      font-size: .8rem; font-weight: 500; color: var(--silver-muted);
+      user-select: none;
+    }
+    details.code-block summary:hover { color: var(--silver); }
+    details.code-block[open] summary { border-bottom: 1px solid var(--obsidian-border); }
+    .code-snippet {
+      padding: 14px; overflow-x: auto;
+      font-family: var(--font-mono); font-size: .8rem; line-height: 1.6;
+      color: var(--silver-light);
+    }
+    .code-snippet .comment { color: var(--silver-dim); }
+    .code-snippet .keyword { color: var(--accent-blue); }
+    .code-snippet .string { color: var(--accent-green); }
+    .code-snippet .func { color: var(--accent-yellow); }
+    .code-snippet .number { color: var(--accent-cyan); }
+    .cmd-box {
+      background: var(--obsidian-light);
+      border: 1px solid var(--obsidian-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-family: var(--font-mono); font-size: .85rem;
+      color: var(--accent-cyan); margin: 8px 0;
+    }
+    .cmd-box::before { content: '$ '; color: var(--silver-dim); }
+  </style>
+</head>
+<body data-page="tests">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="guide-hero">
+        <h1>Test Guide</h1>
+        <p>
+          This site is a <strong>QA Dashboard</strong> — but its real purpose is to serve as the
+          <strong>target application</strong> for an automated Playwright test suite.
+          Every page, component, and interaction you see here has corresponding tests
+          that validate it. This page documents each test suite: what it tests,
+          how it works, and the Playwright APIs it demonstrates.
+        </p>
+        <div class="guide-highlight">
+          <strong>For recruiters:</strong> This project proves I can build a web application AND
+          write a comprehensive, production-quality test suite covering it —
+          smoke checks, content validation, interactions, responsive design,
+          API mocking, and accessibility — all running in CI on every push.
+        </div>
+      </div>
+
+      <div class="section-card" style="margin-bottom:32px;">
+        <h2>How to run the tests</h2>
+        <div class="cmd-box">npm install</div>
+        <div class="cmd-box">npx playwright install --with-deps</div>
+        <div class="cmd-box">npx http-server . -p 3000 -c-1</div>
+        <div class="cmd-box">npx playwright test</div>
+        <p style="margin-top:12px;font-size:.85rem;color:var(--silver-dim);">
+          Run all tests across Chromium and mobile Chrome. Add <code>--project=chromium</code>
+          to run a single browser. Use <code>--ui</code> for the interactive Playwright UI mode.
+        </p>
+      </div>
+
+      <!-- SMOKE -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>01 · Smoke Tests</h2>
+          <div class="suite-badges">
+            <span class="suite-badge method">page.goto</span>
+            <span class="suite-badge assert">toHaveTitle</span>
+            <span class="suite-badge assert">toBeVisible</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Verifies that every route loads successfully, the page title is correct,
+          all navigation links are present and clickable, and a 404 is handled gracefully.
+          These are the first tests to run — if any fails, the build stops.
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/smoke.spec.js</strong></span>
+          <span>Tests: <strong>4</strong></span>
+          <span>Validates: <strong>all 4 pages</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Each page is tested in a loop:</span>
+            <span class="keyword">const</span> pages = [
+              { path: <span class="string">'/'</span>, title: <span class="string">/QA Test Lab.*Dashboard/i</span> },
+              { path: <span class="string">'/scenarios.html'</span>, title: <span class="string">/QA Test Lab.*Scenarios/i</span> },
+              { path: <span class="string">'/history.html'</span>, title: <span class="string">/QA Test Lab.*History/i</span> },
+              { path: <span class="string">'/endpoints.html'</span>, title: <span class="string">/QA Test Lab.*Endpoints/i</span> },
+            ];
+
+            <span class="keyword">for</span> (<span class="keyword">const</span> { path, title } <span class="keyword">of</span> pages) {
+              <span class="keyword">await</span> page.goto(path);
+              <span class="keyword">await</span> expect(page).toHaveTitle(title);
+            }
+
+            <span class="comment">// 404 test:</span>
+            <span class="keyword">const</span> response = <span class="keyword">await</span> page.goto(<span class="string">'/nonexistent.html'</span>);
+            expect(response.status()).<span class="keyword">toBe</span>(<span class="number">404</span>);
+          </div>
+        </details>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>02 · Content Validation</h2>
+          <div class="suite-badges">
+            <span class="suite-badge method">page.locator</span>
+            <span class="suite-badge assert">toHaveCount</span>
+            <span class="suite-badge assert">not.toBeEmpty</span>
+            <span class="suite-badge assert">toContainText</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Checks that all UI elements render with correct data. Validates metric cards
+          (labels, values, subtext), table headers and row counts, scenario card titles,
+          and endpoint list items. This ensures the JavaScript-rendered content is correct.
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/content.spec.js</strong></span>
+          <span>Tests: <strong>10</strong></span>
+          <span>Validates: <strong>Dashboard metrics, tables, scenario cards, endpoints</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Verify 4 metric cards exist:</span>
+            <span class="keyword">const</span> cards = page.locator(<span class="string">'.metric-card'</span>);
+            <span class="keyword">await</span> expect(cards).<span class="func">toHaveCount</span>(<span class="number">4</span>);
+
+            <span class="comment">// Each card has label + value + subtext:</span>
+            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; count; i++) {
+              <span class="keyword">await</span> expect(card.locator(<span class="string">'.metric-label'</span>)).not.<span class="func">toBeEmpty</span>();
+              <span class="keyword">await</span> expect(card.locator(<span class="string">'.metric-value'</span>)).not.<span class="func">toBeEmpty</span>();
+            }
+
+            <span class="comment">// Table headers are correct:</span>
+            <span class="keyword">await</span> expect(headers).<span class="func">toContainText</span>([<span class="string">'Run'</span>, <span class="string">'Date'</span>, <span class="string">'Status'</span>]);
+          </div>
+        </details>
+      </div>
+
+      <!-- INTERACTION -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>03 · Interaction Tests</h2>
+          <div class="suite-badges">
+            <span class="suite-badge method">fill</span>
+            <span class="suite-badge method">selectOption</span>
+            <span class="suite-badge assert">toContainText</span>
+            <span class="suite-badge method">input event</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Tests real user interactions — typing in the search box, selecting dropdown filters,
+          combining search + filters, and verifying the empty state when no results match.
+          Also validates that clicking navbar links navigates to the correct pages.
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/interaction.spec.js</strong></span>
+          <span>Tests: <strong>7</strong></span>
+          <span>Validates: <strong>Search, status/suite filters, combined filters, empty state, navigation</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Type in search and verify results match:</span>
+            <span class="keyword">await</span> page.locator(<span class="string">'#search-input'</span>).<span class="func">fill</span>(<span class="string">'Login'</span>);
+            <span class="keyword">const</span> cards = page.locator(<span class="string">'.scenario-card'</span>);
+
+            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; count; i++) {
+              <span class="keyword">await</span> expect(cards.nth(i).locator(<span class="string">'h3'</span>)).<span class="func">toContainText</span>(<span class="string">/Login/i</span>);
+            }
+
+            <span class="comment">// Select filter:</span>
+            <span class="keyword">await</span> page.locator(<span class="string">'#status-filter'</span>).<span class="func">selectOption</span>(<span class="string">'failed'</span>);
+
+            <span class="comment">// Empty state:</span>
+            <span class="keyword">await</span> page.locator(<span class="string">'#search-input'</span>).<span class="func">fill</span>(<span class="string">'zzzzzthisdoesnotexist'</span>);
+            <span class="keyword">await</span> expect(page.locator(<span class="string">'.scenario-grid'</span>)).<span class="func">toContainText</span>(<span class="string">/No scenarios match/i</span>);
+          </div>
+        </details>
+      </div>
+
+      <!-- RESPONSIVE -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>04 · Responsive Tests</h2>
+          <div class="suite-badges">
+            <span class="suite-badge method">setViewportSize</span>
+            <span class="suite-badge assert">scrollWidth check</span>
+            <span class="suite-badge method">evaluate</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Tests the layout at 5 viewport sizes (375px mobile to 1920px desktop).
+          For each size, checks there is no horizontal overflow, then verifies
+          grid layout adapts correctly (metrics grid columns, single-column on mobile).
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/responsive.spec.js</strong></span>
+          <span>Tests: <strong>25</strong></span>
+          <span>Validates: <strong>5 viewports × 4 pages + 2 layout checks</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Test 5 viewports across all 4 pages:</span>
+            <span class="keyword">const</span> viewports = [
+              { name: <span class="string">'mobile'</span>, width: <span class="number">375</span>, height: <span class="number">812</span> },
+              { name: <span class="string">'tablet'</span>, width: <span class="number">768</span>, height: <span class="number">1024</span> },
+              { name: <span class="string">'desktop'</span>, width: <span class="number">1920</span>, height: <span class="number">1080</span> },
+            ];
+            <span class="keyword">await</span> page.setViewportSize({ width: <span class="number">375</span>, height: <span class="number">812</span> });
+
+            <span class="comment">// No horizontal overflow:</span>
+            <span class="keyword">const</span> overflowWidth = <span class="keyword">await</span> page.evaluate(() =>
+              document.documentElement.scrollWidth - document.documentElement.clientWidth
+            );
+            expect(overflowWidth).<span class="func">toBe</span>(<span class="number">0</span>);
+          </div>
+        </details>
+      </div>
+
+      <!-- API MOCKING -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>05 · API Mocking</h2>
+          <div class="suite-badges">
+            <span class="suite-badge api">page.route</span>
+            <span class="suite-badge method">route.fulfill</span>
+            <span class="suite-badge method">route.abort</span>
+            <span class="suite-badge assert">response status</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Demonstrates Playwright's network interception — mocking API responses,
+          simulating server errors (500), network delays, and connection failures.
+          This proves I can test how an application behaves under different backend conditions
+          without needing a real server.
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/api-mocking.spec.js</strong></span>
+          <span>Tests: <strong>5</strong></span>
+          <span>Validates: <strong>Mock success, error, delay, abort, request interception</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Mock a successful API response:</span>
+            <span class="keyword">await</span> page.route(<span class="string">'**/api/v2/health'</span>, <span class="keyword">async</span> route => {
+              <span class="keyword">await</span> route.<span class="func">fulfill</span>({
+                status: <span class="number">200</span>,
+                contentType: <span class="string">'application/json'</span>,
+                body: JSON.stringify({ status: <span class="string">'ok'</span>, version: <span class="string">'2.1.0'</span> }),
+              });
+            });
+
+            <span class="comment">// Mock a 500 error:</span>
+            <span class="keyword">await</span> page.route(<span class="string">'**/api/v2/products'</span>, <span class="keyword">async</span> route => {
+              <span class="keyword">await</span> route.<span class="func">fulfill</span>({
+                status: <span class="number">500</span>,
+                body: JSON.stringify({ error: <span class="string">'Internal Server Error'</span> }),
+              });
+            });
+
+            <span class="comment">// Simulate network failure:</span>
+            <span class="keyword">await</span> page.route(<span class="string">'**/api/v2/notifications'</span>, <span class="keyword">async</span> route => {
+              <span class="keyword">await</span> route.<span class="func">abort</span>(<span class="string">'connectionrefused'</span>);
+            });
+          </div>
+        </details>
+      </div>
+
+      <!-- ACCESSIBILITY -->
+      <div class="suite-card">
+        <div class="suite-header">
+          <h2>06 · Accessibility Checks</h2>
+          <div class="suite-badges">
+            <span class="suite-badge assert">toHaveAttribute</span>
+            <span class="suite-badge method">getAttribute</span>
+            <span class="suite-badge assert">locator count</span>
+          </div>
+        </div>
+        <div class="suite-desc">
+          Validates basic accessibility requirements — the page has a lang attribute,
+          all images have alt text, form controls have aria-labels, nav links are
+          keyboard-accessible, and headings follow a logical hierarchy (single h1).
+        </div>
+        <div class="suite-meta">
+          <span>File: <strong>tests/accessibility.spec.js</strong></span>
+          <span>Tests: <strong>6</strong></span>
+          <span>Validates: <strong>lang attribute, alt text, aria-labels, heading hierarchy, keyboard nav</strong></span>
+        </div>
+        <details class="code-block">
+          <summary>View code sample</summary>
+          <div class="code-snippet">
+            <span class="comment">// Page has a lang attribute:</span>
+            <span class="keyword">const</span> lang = <span class="keyword">await</span> page.locator(<span class="string">'html'</span>).<span class="func">getAttribute</span>(<span class="string">'lang'</span>);
+            expect(lang).<span class="func">toBeTruthy</span>();
+
+            <span class="comment">// All images have alt text:</span>
+            <span class="keyword">const</span> images = page.locator(<span class="string">'img'</span>);
+            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; count; i++) {
+              <span class="keyword">await</span> expect(images.nth(i)).<span class="func">toHaveAttribute</span>(<span class="string">'alt'</span>);
+            }
+
+            <span class="comment">// Search input has accessible label:</span>
+            <span class="keyword">await</span> expect(page.locator(<span class="string">'#search-input'</span>))
+              .<span class="func">toHaveAttribute</span>(<span class="string">'aria-label'</span>, <span class="string">/search/i</span>);
+          </div>
+        </details>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="section-card" style="margin-top: 12px;">
+        <h2>Test Suite Summary</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Suite</th>
+                <th>Tests</th>
+                <th>Playwright APIs highlighted</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Smoke</td><td>4</td><td>page.goto, toHaveTitle, toBeVisible</td></tr>
+              <tr><td>Content</td><td>10</td><td>locator, toHaveCount, not.toBeEmpty, toContainText</td></tr>
+              <tr><td>Interaction</td><td>7</td><td>fill, selectOption, input events, toContainText</td></tr>
+              <tr><td>Responsive</td><td>25</td><td>setViewportSize, page.evaluate, computed styles</td></tr>
+              <tr><td>API Mocking</td><td>5</td><td>page.route, route.fulfill, route.abort</td></tr>
+              <tr><td>Accessibility</td><td>6</td><td>getAttribute, toHaveAttribute, heading hierarchy</td></tr>
+              <tr style="border-top:2px solid var(--obsidian-border);font-weight:600;">
+                <td>Total</td><td>57</td><td style="color:var(--accent-cyan)">7 browsers · 2 projects in CI</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>
