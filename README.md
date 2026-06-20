@@ -1,54 +1,43 @@
-# QA Test Lab 🧪
+# Playwright QA Lab
 
 [![CI — Playwright Tests](https://github.com/RaphaCastilho/qa-test-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/RaphaCastilho/qa-test-lab/actions/workflows/ci.yml)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Rapha.QA-0a0a0a?logo=google-chrome&logoColor=white)](https://raphacastilho.github.io/Portfolio)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-raphael--castilho-0A66C2?logo=linkedin)](https://linkedin.com/in/raphael-castilho)
 [![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A **quality engineering dashboard** built as a static site and comprehensively tested with **Playwright**. This project serves as a showcase of Playwright testing capabilities — smoke tests, content validation, interactions, responsive design, visual regression, API mocking, and accessibility checks.
+Projeto do portfólio de **Raphael Castilho** — Quality Engineer especializado em automação Playwright.
+
+> Dashboard de qualidade que **eu mesmo construí e testei**. Cada página, card e interação tem testes Playwright automatizados validando comportamento, layout, acessibilidade e cenários de falha. 57 testes, 2 navegadores, CI/CD integrado.
 
 → **Live demo**: [raphacastilho.github.io/qa-test-lab](https://raphacastilho.github.io/qa-test-lab)
-→ **Test Guide** (learn how each test works): [tests.html](https://raphacastilho.github.io/qa-test-lab/tests.html)
+→ **Test Guide**: [tests.html](https://raphacastilho.github.io/qa-test-lab/tests.html)
 
 ---
 
-## What this project demonstrates
+## O que este projeto demonstra
 
-| Capability | Implementation |
+| Capacidade | O que os testes validam |
 |---|---|
-| **Smoke tests** | Route availability, nav links, 404 handling |
-| **Content validation** | Metric cards, tables, scenario cards, endpoint list |
-| **Interaction tests** | Search, status/suite filters, combined filters, empty state |
-| **Responsive design** | 5 viewports (375px–1920px), overflow checks |
-| **Visual regression** | Full-page screenshots per route *(local/CI with snapshots)* |
-| **API mocking** | Route fulfillment, error simulation, delay, abort |
-| **Accessibility** | aria-labels, lang attribute, heading hierarchy, keyboard nav |
-| **Cross-browser** | Chromium, mobile Chrome (Pixel 5) |
+| **Smoke** | Rotas carregam, navbar funciona, 404 tratado |
+| **Content** | Cards de métrica, tabelas, listas renderizadas |
+| **Interação** | Busca, filtros, estado vazio, navegação |
+| **Responsivo** | 5 viewports (375px–1920px), sem overflow |
+| **API Mocking** | Mock de sucesso, erro 500, delay, falha de rede |
+| **Acessibilidade** | lang, alt text, aria-labels, hierarquia de headings |
+| **Cross-browser** | Chromium + mobile Chrome (Pixel 5) |
 
 ---
 
 ## Quick start
 
 ```bash
-# Clone
 git clone https://github.com/RaphaCastilho/qa-test-lab.git
 cd qa-test-lab
-
-# Install dependencies
 npm install
-
-# Install Playwright browsers
 npx playwright install --with-deps
-
-# Start the dev server (in one terminal)
 npx http-server . -p 3000 -c-1
-
-# Run all tests (in another terminal)
 npx playwright test
-
-# Run with UI mode
 npx playwright test --ui
-
-# View the HTML report
 npx playwright show-report
 ```
 
@@ -60,7 +49,7 @@ qa-test-lab/
 ├── scenarios.html          # Test scenarios catalog with filters
 ├── history.html            # Execution history table
 ├── endpoints.html          # API endpoint health monitor
-├── tests.html              # Interactive test guide & documentation
+├── tests.html              # Test guide & documentation
 ├── css/
 │   └── style.css           # Obsidian + silver theme
 ├── js/
@@ -82,10 +71,11 @@ qa-test-lab/
 
 On every push to `main`:
 
-1.  Tests run in parallel across **Chromium** and **mobile Chrome**
+1. Tests run in parallel across **Chromium** and **mobile Chrome**
 2. HTML test reports are uploaded as build artifacts
 3. On success, the site is deployed to **GitHub Pages**
 
 ---
 
-Built with [Playwright](https://playwright.dev) · Theme: obsidian + silver
+Built with [Playwright](https://playwright.dev) · Theme: obsidian + silver<br>
+[Rapha.QA Portfolio](https://raphacastilho.github.io/Portfolio) · [LinkedIn](https://linkedin.com/in/raphael-castilho)

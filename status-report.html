@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Playwright QA Lab — Executive status report with readiness score, risks, and activity">
+  <title>Playwright QA Lab — Status Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="status-report">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Status Report</h1>
+        <p id="report-period">Sprint 24-12</p>
+      </div>
+
+      <div class="sr-readiness" id="sr-readiness">
+        <div class="sr-readiness-score">
+          <div class="sr-gauge" id="sr-gauge">
+            <svg viewBox="0 0 120 120">
+              <circle class="sr-gauge-bg" cx="60" cy="60" r="52" />
+              <circle class="sr-gauge-fill" id="sr-gauge-fill" cx="60" cy="60" r="52"
+                stroke-dasharray="326.7" stroke-dashoffset="0" />
+            </svg>
+            <span class="sr-gauge-label" id="sr-gauge-label">78%</span>
+          </div>
+          <div class="sr-readiness-info">
+            <h2>Release Readiness</h2>
+            <p>Overall quality score based on test pass rate, open bugs by severity, and risk coverage.</p>
+            <div class="sr-readiness-status" id="sr-readiness-status">At Risk</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-grid" id="sr-summary"></div>
+
+      <div class="sr-row">
+        <div class="section-card sr-half">
+          <h2>Bug Breakdown by Severity</h2>
+          <div id="sr-bug-bars"></div>
+        </div>
+        <div class="section-card sr-half">
+          <h2>Test Execution</h2>
+          <div id="sr-test-chart"></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2>Risk Register</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Likelihood</th>
+                <th>Impact</th>
+                <th>Status</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody id="sr-risk-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2>Recent Activity</h2>
+        <div id="sr-activity"></div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    (function() {
+      const report = DataStore.getStatusReport();
+      const tc = DataStore.getTestCases();
+      const br = DataStore.getBugReports();
+      const scenarios = DataStore.getScenarios();
+      const history = DataStore.getHistory();
+      const metrics = DataStore.getMetrics();
+
+      document.getElementById('report-period').textContent = report.period;
+
+      const score = report.readinessScore;
+      const gaugeFill = document.getElementById('sr-gauge-fill');
+      const circumference = 326.7;
+      const offset = circumference - (score / 100) * circumference;
+      gaugeFill.style.strokeDashoffset = offset;
+      document.getElementById('sr-gauge-label').textContent = score + '%';
+
+      const statusEl = document.getElementById('sr-readiness-status');
+      const statusClass = score >= 85 ? 'good' : score >= 70 ? 'at-risk' : 'blocked';
+      statusEl.textContent = score >= 85 ? 'Ready' : score >= 70 ? 'At Risk' : 'Blocked';
+      statusEl.className = 'sr-readiness-status ' + statusClass;
+
+      const summaryHtml = [
+        { label: 'Total Tests', value: report.testSummary.total.toLocaleString(), sub: 'Across all suites', class: 'cyan' },
+        { label: 'Pass Rate', value: (report.testSummary.passed / report.testSummary.total * 100).toFixed(1) + '%', sub: report.testSummary.failed + ' failed, ' + report.testSummary.skipped + ' skipped', class: 'green' },
+        { label: 'Open Bugs', value: br.filter(b => b.severity === 'critical' || b.severity === 'high').length.toString(), sub: report.bugSummary.total + ' total reported', class: 'red' },
+        { label: 'Active Risks', value: report.riskItems.filter(r => r.status !== 'resolved').length.toString(), sub: report.riskItems.length + ' total tracked', class: 'yellow' },
+      ];
+      document.getElementById('sr-summary').innerHTML = summaryHtml.map(m => `
+        <div class="metric-card">
+          <div class="metric-label">${m.label}</div>
+          <div class="metric-value ${m.class}">${m.value}</div>
+          <div class="metric-sub">${m.sub}</div>
+        </div>
+      `).join('');
+
+      const severityOrder = ['critical', 'high', 'medium', 'low'];
+      const bugCounts = { critical: 0, high: 0, medium: 0, low: 0 };
+      br.forEach(b => { if (bugCounts[b.severity] !== undefined) bugCounts[b.severity]++; });
+      const maxBug = Math.max(...Object.values(bugCounts), 1);
+      document.getElementById('sr-bug-bars').innerHTML = severityOrder.map(s => `
+        <div class="sr-bar-row">
+          <span class="sr-bar-label">${s}</span>
+          <div class="sr-bar-track">
+            <div class="sr-bar-fill severity-${s}" style="width:${(bugCounts[s] / maxBug) * 100}%"></div>
+          </div>
+          <span class="sr-bar-value">${bugCounts[s]}</span>
+        </div>
+      `).join('');
+
+      const total = report.testSummary.total;
+      const passed = report.testSummary.passed;
+      const failed = report.testSummary.failed;
+      const skipped = report.testSummary.skipped;
+      const passPct = (passed / total) * 100;
+      const failPct = (failed / total) * 100;
+      const skipPct = (skipped / total) * 100;
+      document.getElementById('sr-test-chart').innerHTML = `
+        <div class="sr-stacked-bar">
+          <div class="sr-stacked-segment passed" style="width:${passPct}%"></div>
+          <div class="sr-stacked-segment failed" style="width:${failPct}%"></div>
+          <div class="sr-stacked-segment skipped" style="width:${skipPct}%"></div>
+        </div>
+        <div class="sr-stacked-legend">
+          <span><span class="dot passed"></span> Passed (${passed.toLocaleString()})</span>
+          <span><span class="dot failed"></span> Failed (${failed})</span>
+          <span><span class="dot skipped"></span> Skipped (${skipped})</span>
+        </div>
+      `;
+
+      const riskColors = { critical: 'var(--accent-red)', high: 'var(--accent-yellow)', medium: 'var(--accent-blue)', low: 'var(--silver-muted)' };
+      const statusColors = { mitigating: 'var(--accent-yellow)', 'in-progress': 'var(--accent-blue)', resolved: 'var(--accent-green)', identified: 'var(--silver-muted)' };
+      const tbody = document.getElementById('sr-risk-table');
+      tbody.innerHTML = report.riskItems.map(r => `
+        <tr>
+          <td><strong>${r.id}</strong></td>
+          <td>${r.description}</td>
+          <td><span style="color:${riskColors[r.likelihood]};font-weight:600;">${r.likelihood}</span></td>
+          <td><span style="color:${riskColors[r.impact]};font-weight:600;">${r.impact}</span></td>
+          <td><span class="badge" style="background:${statusColors[r.status]}20;color:${statusColors[r.status]}">${r.status}</span></td>
+          <td>${r.owner}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('sr-activity').innerHTML = report.activityLog.map(a => `
+        <div class="sr-activity-item">
+          <span class="sr-activity-date">${a.date}</span>
+          <span class="sr-activity-dot activity-${a.type}"></span>
+          <span class="sr-activity-event">${a.event}</span>
+        </div>
+      `).join('');
+    })();
+  </script>
+</body>
+</html>

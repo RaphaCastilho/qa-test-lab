@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Playwright QA Lab — Related projects showcase">
+  <title>Playwright QA Lab — Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="projects">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Related Projects</h1>
+        <p>Complementary automation projects that demonstrate additional testing approaches and tools.</p>
+      </div>
+
+      <div class="project-showcase">
+        <div class="showcase-header">
+          <div class="showcase-visual">
+            <span class="showcase-icon">ST</span>
+          </div>
+          <div>
+            <h2>Playwright + ServeRest</h2>
+            <p class="showcase-subtitle">E2E automation with Page Object Model, TypeScript, k6 load testing, and Jenkins CI.</p>
+          </div>
+        </div>
+
+        <div class="showcase-tags">
+          <span>Playwright</span>
+          <span>TypeScript</span>
+          <span>POM</span>
+          <span>k6</span>
+          <span>Load Testing</span>
+          <span>Jenkins</span>
+          <span>CI/CD</span>
+          <span>REST API</span>
+        </div>
+
+        <div class="showcase-stats">
+          <div class="stat-card">
+            <span class="stat-value">9</span>
+            <span class="stat-label">E2E Tests</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">5</span>
+            <span class="stat-label">k6 Scenarios</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">3</span>
+            <span class="stat-label">Load Profiles</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">1</span>
+            <span class="stat-label">Pipeline</span>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h2>Architecture Highlights</h2>
+          <div class="showcase-grid">
+            <div class="showcase-item">
+              <h3>Page Object Model</h3>
+              <p>All selectors and interaction logic encapsulated in dedicated page classes. Tests only orchestrate actions and assertions.</p>
+              <div class="showcase-meta">src/pages/ — 5 page objects</div>
+            </div>
+            <div class="showcase-item">
+              <h3>Custom Fixtures</h3>
+              <p>Page objects injected via Playwright's <code>test.extend()</code> fixture system, eliminating repetitive instantiation in every spec.</p>
+              <div class="showcase-meta">src/fixtures/index.ts</div>
+            </div>
+            <div class="showcase-item">
+              <h3>TypeScript Interfaces</h3>
+              <p>Typed product data interfaces ensure compile-time safety for test data structures across all specs.</p>
+              <div class="showcase-meta">CadastrarProdutoPage.ts — ProdutoData</div>
+            </div>
+            <div class="showcase-item">
+              <h3>Environment Configuration</h3>
+              <p>Credentials and base URL managed via <code>.env</code> with dotenv, never hardcoded in tests.</p>
+              <div class="showcase-meta">.env.example + playwright.config.ts</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h2>k6 Load Testing</h2>
+          <p class="showcase-section-desc">Five API scenarios orchestrated by a master runner, with three configurable load profiles.</p>
+          <div class="showcase-profiles">
+            <div class="profile-card">
+              <span class="profile-name">Smoke</span>
+              <span class="profile-detail">1 VU · 1 min</span>
+              <span class="profile-desc">Validates script correctness</span>
+            </div>
+            <div class="profile-card">
+              <span class="profile-name">Load</span>
+              <span class="profile-detail">Ramp to 20 VUs · 5 min</span>
+              <span class="profile-desc">Simulates normal production traffic</span>
+            </div>
+            <div class="profile-card">
+              <span class="profile-name">Stress</span>
+              <span class="profile-detail">Ramp to 80 VUs · 7 min</span>
+              <span class="profile-desc">Finds breaking point under extreme load</span>
+            </div>
+          </div>
+          <div class="showcase-scenarios">
+            <h3>Scenarios</h3>
+            <table>
+              <thead>
+                <tr><th>Scenario</th><th>Endpoint</th><th>SLA</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Login</td><td>POST /login</td><td>p95 &lt; 2000ms</td></tr>
+                <tr><td>Home / Dashboard</td><td>GET /produtos</td><td>p95 &lt; 2000ms</td></tr>
+                <tr><td>List Products</td><td>GET /produtos</td><td>p95 &lt; 2000ms</td></tr>
+                <tr><td>Create Product</td><td>POST /produtos</td><td>p95 &lt; 3000ms</td></tr>
+                <tr><td>Delete Product</td><td>DELETE /produtos/:id</td><td>p95 &lt; 3000ms</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h2>CI/CD Pipeline</h2>
+          <div class="showcase-pipeline">
+            <div class="pipeline-step">Checkout</div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">Setup .env</div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">Dependencies</div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">Playwright E2E</div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">k6 Smoke</div>
+          </div>
+          <p class="showcase-pipeline-note">Automated via Jenkins — HTML report published and failure artifacts archived per build.</p>
+        </div>
+
+        <div class="showcase-cta">
+          <a href="https://github.com/RaphaCastilho/playwright-serverest" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" style="margin-right:8px;vertical-align:-3px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+</body>
+</html>

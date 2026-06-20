@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Playwright QA Lab — Bug reports catalog with reproduction steps and severity">
+  <title>Playwright QA Lab — Bug Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="bug-reports">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Bug Reports</h1>
+        <p>Documented bugs with reproduction steps, environment details, and severity classification.</p>
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" class="filter-input" id="search-input" placeholder="Search by ID or title..." aria-label="Search bug reports">
+        <select class="filter-select" id="severity-filter" aria-label="Filter by severity">
+          <option value="all">All severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select class="filter-select" id="suite-filter" aria-label="Filter by suite">
+          <option value="all">All suites</option>
+          <option value="Auth">Auth</option>
+          <option value="Catalog">Catalog</option>
+          <option value="Cart">Cart</option>
+          <option value="Checkout">Checkout</option>
+          <option value="Payment">Payment</option>
+          <option value="Profile">Profile</option>
+          <option value="Reports">Reports</option>
+          <option value="UI">UI</option>
+          <option value="Accessibility">Accessibility</option>
+        </select>
+      </div>
+
+      <div class="br-grid" id="br-grid"></div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    (function() {
+      let bugReports = DataStore.getBugReports();
+
+      const severityColors = { critical: 'var(--accent-red)', high: 'var(--accent-yellow)', medium: 'var(--accent-blue)', low: 'var(--silver-muted)' };
+
+      function render() {
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+        const severityVal = document.getElementById('severity-filter').value;
+        const suiteVal = document.getElementById('suite-filter').value;
+
+        const filtered = bugReports.filter(br => {
+          const matchSearch = br.id.toLowerCase().includes(searchTerm) || br.title.toLowerCase().includes(searchTerm);
+          const matchSeverity = severityVal === 'all' || br.severity === severityVal;
+          const matchSuite = suiteVal === 'all' || br.suite === suiteVal;
+          return matchSearch && matchSeverity && matchSuite;
+        });
+
+        const grid = document.getElementById('br-grid');
+        if (filtered.length === 0) {
+          grid.innerHTML = '<p style="color: var(--silver-dim); grid-column: 1 / -1; text-align: center; padding: 48px 0;">No bug reports match the current filters.</p>';
+          return;
+        }
+        grid.innerHTML = filtered.map(br => `
+          <div class="br-card">
+            <div class="br-head">
+              <span class="br-severity" style="background:${severityColors[br.severity]}20;color:${severityColors[br.severity]};border-color:${severityColors[br.severity]}40">${br.severity}</span>
+              <span class="br-id">${br.id}</span>
+            </div>
+            <h3 class="br-title">${br.title}</h3>
+            <p class="br-desc">${br.description}</p>
+            <div class="br-env"><span class="br-label">Environment</span> ${br.environment}</div>
+            <div class="br-section">
+              <strong>Steps to Reproduce</strong>
+              <ol>${br.stepsToReproduce.map(s => `<li>${s}</li>`).join('')}</ol>
+            </div>
+            <div class="br-result-row">
+              <div class="br-result">
+                <span class="br-result-label br-label-actual">Actual Result</span>
+                <p>${br.actualResult}</p>
+              </div>
+              <div class="br-result">
+                <span class="br-result-label br-label-expected">Expected Result</span>
+                <p>${br.expectedResult}</p>
+              </div>
+            </div>
+            <div class="br-meta">
+              <span>Suite: <strong>${br.suite}</strong></span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('search-input').addEventListener('input', render);
+      document.getElementById('severity-filter').addEventListener('change', render);
+      document.getElementById('suite-filter').addEventListener('change', render);
+      render();
+    })();
+  </script>
+</body>
+</html>
