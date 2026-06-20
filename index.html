@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QA Test Lab — Playwright automation quality dashboard">
+  <title>QA Test Lab — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Quality Dashboard</h1>
+        <p>Real-time test execution metrics and quality signals for the current release cycle.</p>
+      </div>
+
+      <div class="metrics-grid" id="metrics-grid"></div>
+
+      <div class="section-card">
+        <h2>Recent Test Runs</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Run</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Passed</th>
+                <th>Failed</th>
+                <th>Skipped</th>
+                <th>Duration</th>
+                <th>Branch</th>
+              </tr>
+            </thead>
+            <tbody id="history-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    (function() {
+      const metrics = DataStore.getMetrics();
+      const grid = document.getElementById('metrics-grid');
+      grid.innerHTML = metrics.map(m => `
+        <div class="metric-card">
+          <div class="metric-label">${m.label}</div>
+          <div class="metric-value ${m.class}">${m.value}</div>
+          <div class="metric-sub">${m.sub}</div>
+        </div>
+      `).join('');
+
+      const history = DataStore.getHistory().slice(0, 6);
+      const tbody = document.getElementById('history-table');
+      tbody.innerHTML = history.map(r => `
+        <tr>
+          <td><strong>${r.run}</strong></td>
+          <td>${r.date}</td>
+          <td><span class="badge ${r.status}"><span class="badge-dot ${r.status}"></span>${r.status}</span></td>
+          <td>${r.passed}</td>
+          <td>${r.failed}</td>
+          <td>${r.skipped}</td>
+          <td>${r.duration}</td>
+          <td><code>${r.branch}</code></td>
+        </tr>
+      `).join('');
+    })();
+  </script>
+</body>
+</html>

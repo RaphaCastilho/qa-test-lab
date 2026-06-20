@@ -1,0 +1,17 @@
+{
+  "name": "qa-test-lab",
+  "version": "1.0.0",
+  "description": "QA Test Lab — Playwright automation showcase dashboard",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report",
+    "serve": "npx http-server . -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "http-server": "^14.1.1",
+    "@axe-core/playwright": "^4.10.1",
+    "playwright-lighthouse": "^3.2.0"
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QA Test Lab — Test execution history">
+  <title>QA Test Lab — History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="history">
+  <div class="app-wrapper">
+    <div id="navbar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Execution History</h1>
+        <p>Detailed log of all test runs across branches and pipelines.</p>
+      </div>
+
+      <div class="section-card">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Run</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Passed</th>
+                <th>Failed</th>
+                <th>Skipped</th>
+                <th>Total</th>
+                <th>Duration</th>
+                <th>Branch</th>
+              </tr>
+            </thead>
+            <tbody id="history-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    (function() {
+      const history = DataStore.getHistory();
+      const tbody = document.getElementById('history-table');
+      tbody.innerHTML = history.map(r => `
+        <tr>
+          <td><strong>${r.run}</strong></td>
+          <td>${r.date}</td>
+          <td><span class="badge ${r.status}"><span class="badge-dot ${r.status}"></span>${r.status}</span></td>
+          <td style="color:var(--accent-green)">${r.passed}</td>
+          <td style="color:var(--accent-red)">${r.failed}</td>
+          <td style="color:var(--silver-dim)">${r.skipped}</td>
+          <td>${r.passed + r.failed + r.skipped}</td>
+          <td>${r.duration}</td>
+          <td><code>${r.branch}</code></td>
+        </tr>
+      `).join('');
+    })();
+  </script>
+</body>
+</html>
