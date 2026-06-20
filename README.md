@@ -18,7 +18,7 @@ A **quality engineering dashboard** built as a static site and comprehensively t
 | **Content validation** | Metric cards, tables, scenario cards, endpoint list |
 | **Interaction tests** | Search, status/suite filters, combined filters, empty state |
 | **Responsive design** | 5 viewports (375px–1920px), overflow checks |
-| **Visual regression** | Full-page screenshots per route with diff thresholds |
+| **Visual regression** | Full-page screenshots per route *(local/CI with snapshots)* |
 | **API mocking** | Route fulfillment, error simulation, delay, abort |
 | **Accessibility** | aria-labels, lang attribute, heading hierarchy, keyboard nav |
 | **Cross-browser** | Chromium, Firefox, mobile Chrome (Pixel 5) |
@@ -69,7 +69,6 @@ qa-test-lab/
 │   ├── content.spec.js     # Content validation
 │   ├── interaction.spec.js # Search, filter, navigation
 │   ├── responsive.spec.js  # Viewport + overflow
-│   ├── visual.spec.js      # Visual regression
 │   ├── api-mocking.spec.js # Mock API responses
 │   └── accessibility.spec.js # a11y checks
 ├── playwright.config.js    # Playwright configuration
