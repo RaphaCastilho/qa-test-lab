@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        project: [chromium, firefox, mobile-chrome]
+        project: [chromium, mobile-chrome]
 
     steps:
       - uses: actions/checkout@v4

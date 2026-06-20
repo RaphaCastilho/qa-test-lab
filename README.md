@@ -21,7 +21,7 @@ A **quality engineering dashboard** built as a static site and comprehensively t
 | **Visual regression** | Full-page screenshots per route *(local/CI with snapshots)* |
 | **API mocking** | Route fulfillment, error simulation, delay, abort |
 | **Accessibility** | aria-labels, lang attribute, heading hierarchy, keyboard nav |
-| **Cross-browser** | Chromium, Firefox, mobile Chrome (Pixel 5) |
+| **Cross-browser** | Chromium, mobile Chrome (Pixel 5) |
 
 ---
 
@@ -80,7 +80,7 @@ qa-test-lab/
 
 On every push to `main`:
 
-1. Tests run in parallel across **Chromium**, **Firefox**, and **mobile Chrome**
+1.  Tests run in parallel across **Chromium** and **mobile Chrome**
 2. HTML test reports are uploaded as build artifacts
 3. On success, the site is deployed to **GitHub Pages**
 
