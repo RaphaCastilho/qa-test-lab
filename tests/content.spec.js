@@ -12,6 +12,8 @@ test.describe('Dashboard content', () => {
 
   test('metric cards have label, value, and sub text', async ({ page }) => {
     const cards = page.locator('.metric-card');
+    await expect(cards.filter({ hasText: 'Automated Checks' }).locator('.metric-value')).toHaveText('100+');
+
     const count = await cards.count();
     for (let i = 0; i < count; i++) {
       const card = cards.nth(i);

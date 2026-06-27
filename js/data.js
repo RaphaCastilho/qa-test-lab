@@ -1,9 +1,9 @@
 const DataStore = {
   metrics: [
-    { label: 'Total Tests', value: '1,284', sub: '+12 esta semana', class: 'cyan' },
-    { label: 'Pass Rate', value: '97.3%', sub: '+0.8% vs. anterior', class: 'green' },
-    { label: 'Coverage', value: '84%', sub: '+3% este mês', class: 'green' },
-    { label: 'Scenarios', value: '342', sub: '18 automações novas', class: 'yellow' },
+    { label: 'Automated Checks', value: '100+', sub: '10 spec files', class: 'cyan' },
+    { label: 'Pass Rate', value: '96.2%', sub: 'latest local run data', class: 'green' },
+    { label: 'Coverage Areas', value: '6', sub: 'smoke, UI, API, a11y', class: 'green' },
+    { label: 'Scenarios', value: '20', sub: 'documented QA cases', class: 'yellow' },
   ],
 
   scenarios: [
@@ -30,16 +30,16 @@ const DataStore = {
   ],
 
   history: [
-    { run: '#2841', date: '2026-06-20 09:32', status: 'passed', passed: 187, failed: 2, skipped: 5, duration: '4m 12s', branch: 'main' },
-    { run: '#2840', date: '2026-06-20 07:15', status: 'passed', passed: 186, failed: 3, skipped: 5, duration: '4m 08s', branch: 'main' },
-    { run: '#2839', date: '2026-06-19 22:00', status: 'passed', passed: 185, failed: 3, skipped: 6, duration: '4m 31s', branch: 'main' },
-    { run: '#2838', date: '2026-06-19 14:22', status: 'failed', passed: 178, failed: 12, skipped: 4, duration: '4m 55s', branch: 'feat/payment-v2' },
-    { run: '#2837', date: '2026-06-19 09:30', status: 'passed', passed: 188, failed: 1, skipped: 5, duration: '4m 02s', branch: 'main' },
-    { run: '#2836', date: '2026-06-18 18:45', status: 'passed', passed: 187, failed: 1, skipped: 6, duration: '3m 58s', branch: 'main' },
-    { run: '#2835', date: '2026-06-18 11:00', status: 'passed', passed: 186, failed: 2, skipped: 6, duration: '4m 15s', branch: 'main' },
-    { run: '#2834', date: '2026-06-17 21:30', status: 'passed', passed: 185, failed: 2, skipped: 7, duration: '4m 22s', branch: 'main' },
-    { run: '#2833', date: '2026-06-17 15:10', status: 'failed', passed: 165, failed: 22, skipped: 7, duration: '5m 10s', branch: 'feat/new-catalog' },
-    { run: '#2832', date: '2026-06-17 08:00', status: 'passed', passed: 187, failed: 1, skipped: 6, duration: '4m 05s', branch: 'main' },
+    { run: '#041', date: '2026-06-20 09:32', status: 'passed', passed: 76, failed: 0, skipped: 3, duration: '2m 18s', branch: 'main' },
+    { run: '#040', date: '2026-06-20 07:15', status: 'passed', passed: 75, failed: 1, skipped: 3, duration: '2m 24s', branch: 'main' },
+    { run: '#039', date: '2026-06-19 22:00', status: 'passed', passed: 74, failed: 2, skipped: 3, duration: '2m 31s', branch: 'main' },
+    { run: '#038', date: '2026-06-19 14:22', status: 'failed', passed: 67, failed: 9, skipped: 3, duration: '2m 46s', branch: 'responsive-fix' },
+    { run: '#037', date: '2026-06-19 09:30', status: 'passed', passed: 75, failed: 1, skipped: 3, duration: '2m 20s', branch: 'main' },
+    { run: '#036', date: '2026-06-18 18:45', status: 'passed', passed: 76, failed: 0, skipped: 3, duration: '2m 15s', branch: 'main' },
+    { run: '#035', date: '2026-06-18 11:00', status: 'passed', passed: 74, failed: 2, skipped: 3, duration: '2m 29s', branch: 'main' },
+    { run: '#034', date: '2026-06-17 21:30', status: 'passed', passed: 75, failed: 1, skipped: 3, duration: '2m 27s', branch: 'main' },
+    { run: '#033', date: '2026-06-17 15:10', status: 'failed', passed: 66, failed: 10, skipped: 3, duration: '2m 50s', branch: 'filters' },
+    { run: '#032', date: '2026-06-17 08:00', status: 'passed', passed: 76, failed: 0, skipped: 3, duration: '2m 13s', branch: 'main' },
   ],
 
   endpoints: [
@@ -86,7 +86,7 @@ const DataStore = {
   statusReport: {
     period: 'Sprint 24-12 (Jun 09 – Jun 20, 2026)',
     readinessScore: 78,
-    testSummary: { total: 1284, passed: 1249, failed: 18, skipped: 17 },
+    testSummary: { total: 102, passed: 98, failed: 1, skipped: 3 },
     bugSummary: { total: 10, critical: 3, high: 4, medium: 3, low: 0 },
     riskItems: [
       { id: 'RSK-001', description: 'Payment confirmation email delivery intermittent in production', likelihood: 'high', impact: 'critical', status: 'mitigating', owner: 'Platform Team' },
@@ -98,7 +98,7 @@ const DataStore = {
     activityLog: [
       { date: '2026-06-20', event: 'Release v2.14.3 deployed to production', type: 'release' },
       { date: '2026-06-19', event: '3 critical bugs triaged in Checkout and Payment suites', type: 'bug' },
-      { date: '2026-06-18', event: 'End-to-end regression run completed (284 tests, 97.3% pass)', type: 'test' },
+      { date: '2026-06-18', event: 'End-to-end regression run completed (102 checks, 96.1% pass)', type: 'test' },
       { date: '2026-06-17', event: 'Performance benchmark: catalog search p95 improved by 320ms', type: 'perf' },
       { date: '2026-06-16', event: 'Security audit: 2 medium findings remediated', type: 'security' },
       { date: '2026-06-13', event: 'Accessibility scan: 4 AA violations fixed across dashboard', type: 'a11y' },

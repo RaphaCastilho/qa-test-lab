@@ -106,15 +106,14 @@
         <p>
           This site is a <strong>QA Dashboard</strong> — but its real purpose is to serve as the
           <strong>target application</strong> for an automated Playwright test suite.
-          Every page, component, and interaction you see here has corresponding tests
-          that validate it. This page documents each test suite: what it tests,
+          Key pages, components, and interactions have corresponding tests
+          that validate them. This page documents each test suite: what it tests,
           how it works, and the Playwright APIs it demonstrates.
         </p>
         <div class="guide-highlight">
-          <strong>For recruiters:</strong> This project proves I can build a web application AND
-          write a comprehensive, production-quality test suite covering it —
-          smoke checks, content validation, interactions, responsive design,
-          API mocking, and accessibility — all running in CI on every push.
+          This project combines a small dashboard with 100+ automated checks covering
+          smoke flows, content validation, interactions, responsive layout,
+          API mocking, accessibility, test cases, bug reports, status reports, and project documentation.
         </div>
       </div>
 
@@ -125,7 +124,7 @@
         <div class="cmd-box">npx http-server . -p 3000 -c-1</div>
         <div class="cmd-box">npx playwright test</div>
         <p style="margin-top:12px;font-size:.85rem;color:var(--silver-dim);">
-          Run all tests across Chromium and mobile Chrome. Add <code>--project=chromium</code>
+          Run the suite across the configured Playwright projects. Add <code>--project=chromium</code>
           to run a single browser. Use <code>--ui</code> for the interactive Playwright UI mode.
         </p>
       </div>
@@ -272,7 +271,7 @@
         </div>
         <div class="suite-meta">
           <span>File: <strong>tests/responsive.spec.js</strong></span>
-          <span>Tests: <strong>25</strong></span>
+          <span>Tests: <strong>22 viewport checks</strong></span>
           <span>Validates: <strong>5 viewports × 4 pages + 2 layout checks</strong></span>
         </div>
         <details class="code-block">
@@ -398,14 +397,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Smoke</td><td>4</td><td>page.goto, toHaveTitle, toBeVisible</td></tr>
+              <tr><td>Smoke</td><td>8</td><td>page.goto, toHaveTitle, toBeVisible</td></tr>
               <tr><td>Content</td><td>10</td><td>locator, toHaveCount, not.toBeEmpty, toContainText</td></tr>
               <tr><td>Interaction</td><td>7</td><td>fill, selectOption, input events, toContainText</td></tr>
-              <tr><td>Responsive</td><td>25</td><td>setViewportSize, page.evaluate, computed styles</td></tr>
+              <tr><td>Responsive</td><td>22</td><td>setViewportSize, page.evaluate, computed styles</td></tr>
               <tr><td>API Mocking</td><td>5</td><td>page.route, route.fulfill, route.abort</td></tr>
               <tr><td>Accessibility</td><td>6</td><td>getAttribute, toHaveAttribute, heading hierarchy</td></tr>
+              <tr><td>Test Cases</td><td>13</td><td>cards, metadata, filters, empty state</td></tr>
+              <tr><td>Bug Reports</td><td>12</td><td>severity, reproduction steps, filters, reset state</td></tr>
+              <tr><td>Status Report</td><td>10</td><td>readiness, metrics, risk register, timeline</td></tr>
+              <tr><td>Projects</td><td>9</td><td>project stats, architecture notes, pipeline content</td></tr>
               <tr style="border-top:2px solid var(--obsidian-border);font-weight:600;">
-                <td>Total</td><td>57</td><td style="color:var(--accent-cyan)">7 browsers · 2 projects in CI</td>
+                <td>Total</td><td>102</td><td style="color:var(--accent-cyan)">Chromium + mobile Chrome in CI</td>
               </tr>
             </tbody>
           </table>

@@ -5,9 +5,9 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-raphael--castilho-0A66C2?logo=linkedin)](https://linkedin.com/in/raphael-castilho)
 [![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev)
 
-Projeto do portfólio de **Raphael Castilho** — Quality Engineer especializado em automação Playwright.
+Projeto do portfólio de **Raphael Castilho** — Quality Engineer com foco em automação Playwright.
 
-> Dashboard de qualidade que **eu mesmo construí e testei**. Cada página, card e interação tem testes Playwright automatizados validando comportamento, layout, acessibilidade e cenários de falha. 57 testes, 2 navegadores, CI/CD integrado.
+> Dashboard de qualidade usado como aplicação-alvo para uma suíte Playwright com 100+ checks automatizados, cobrindo comportamento, layout, acessibilidade, dados simulados e cenários de falha.
 
 → **Live demo**: [raphacastilho.github.io/qa-test-lab](https://raphacastilho.github.io/qa-test-lab)
 → **Test Guide**: [tests.html](https://raphacastilho.github.io/qa-test-lab/tests.html)
@@ -49,7 +49,7 @@ qa-test-lab/
 ├── scenarios.html          # Test scenarios catalog with filters
 ├── history.html            # Execution history table
 ├── endpoints.html          # API endpoint health monitor
-├── tests.html              # Test guide & documentation
+├── tests.html              # Test guide and documentation
 ├── css/
 │   └── style.css           # Obsidian + silver theme
 ├── js/
@@ -61,7 +61,11 @@ qa-test-lab/
 │   ├── interaction.spec.js # Search, filter, navigation
 │   ├── responsive.spec.js  # Viewport + overflow
 │   ├── api-mocking.spec.js # Mock API responses
-│   └── accessibility.spec.js # a11y checks
+│   ├── accessibility.spec.js # a11y checks
+│   ├── test-cases.spec.js  # Test case page checks
+│   ├── bug-reports.spec.js # Bug report page checks
+│   ├── status-report.spec.js # Status report checks
+│   └── projects.spec.js    # Related projects page checks
 ├── playwright.config.js    # Playwright configuration
 └── .github/workflows/
     └── ci.yml              # CI — test matrix + GH Pages deploy
@@ -71,7 +75,7 @@ qa-test-lab/
 
 On every push to `main`:
 
-1. Tests run in parallel across **Chromium** and **mobile Chrome**
+1. Tests run across **Chromium** and **mobile Chrome**
 2. HTML test reports are uploaded as build artifacts
 3. On success, the site is deployed to **GitHub Pages**
 

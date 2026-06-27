@@ -29,6 +29,7 @@ test.describe('Status Report page', () => {
   test('displays four summary metric cards', async ({ page }) => {
     const cards = page.locator('#sr-summary .metric-card');
     expect(await cards.count()).toBe(4);
+    await expect(cards.filter({ hasText: 'Total Tests' }).locator('.metric-value')).toHaveText('102');
   });
 
   test('shows bug breakdown bars', async ({ page }) => {
